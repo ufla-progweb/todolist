@@ -54,6 +54,11 @@ public class TarefaBean {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                 "Tarefa concluída com sucesso!", null));
     }
+    
+    public String[] getPrioridades() {
+        String vetPrioridades[] = {PR_ALTA, PR_MEDIA, PR_BAIXA};
+        return vetPrioridades;
+    }
 
     public List<Tarefa> getTarefas() {
         return tarefas;

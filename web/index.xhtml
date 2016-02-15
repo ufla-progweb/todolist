@@ -23,13 +23,13 @@
                                 locale="pt_BR"
                                 requiredMessage="Por favor, informe o deadline da tarefa!"
                                 mindate="#{dataBean.dataAtual}"/>
-                    <p:outputLabel value="Prioridade:" for="txPropridade"/>
-                    <p:autoComplete id="txPropridade" dropdown="true" required="true" 
-                                    forceSelection="true"
-                                    value="#{tarefaBean.novaTarefa.prioridade}"
-                                    requiredMessage="Por favor, informe a prioridade da tarefa!"
-                                    completeMethod="#{tarefaBean.completarPrioridade}"/>
-
+                    <p:outputLabel value="Prioridade:" for="slPropridade"/>                    
+                    <p:selectOneMenu id="slPropridade" 
+                                     style="width:125px"
+                                     value="#{tarefaBean.novaTarefa.prioridade}"
+                                     filter="true" filterMatchMode="startsWith">
+                        <f:selectItems value="#{tarefaBean.prioridades}"/>
+                    </p:selectOneMenu>
                 </h:panelGrid> 
                 <p:commandButton value="Salvar" update="form" actionListener="#{tarefaBean.salvar}"/>
             </p:panel>

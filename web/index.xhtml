@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>TodoList</title>
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css"/>
+    </h:head>
+    <h:body>
+        <h:form id="form">
+            <p:growl id="msgs"/>
+            <p:panel header="Nova Tarefa">
+                <h:panelGrid columns="2" cellpadding="5">
+                    <p:outputLabel value="Descrição:" for="txDescricao"/>
+                    <p:inputText id="txDescricao" required="true" 
+                                 value="#{tarefaBean.novaTarefa.descricao}"
+                                 requiredMessage="Por favor, informe a descrição da tarefa!"/>
+                    <p:outputLabel value="Deadline:" for="txDeadline"/>
+                    <p:calendar id="txDeadline" required="true" 
+                                value="#{tarefaBean.novaTarefa.deadline}"
+                                requiredMessage="Por favor, informe o deadline da tarefa!"
+                                mindate="#{dataBean.dataAtual}"/>
+                    <p:outputLabel value="Prioridade:" for="txPropridade"/>
+                    <p:autoComplete id="txPropridade" dropdown="true" required="true" 
+                                    forceSelection="true"
+                                    value="#{tarefaBean.novaTarefa.prioridade}"
+                                    requiredMessage="Por favor, informe a prioridade da tarefa!"
+                                    completeMethod="#{tarefaBean.completarPrioridade}"/>
+
+                </h:panelGrid> 
+                <p:commandButton value="Salvar" update="form" action="#{tarefaBean.salvar}"/>
+            </p:panel>
+            <br/>
+            <p:dataTable id="table" emptyMessage="Uhuu... Não há tarefas pendentes!"
+                         value="#{tarefaBean.tarefas}"
+                         var="tarefa"
+                         sortBy="#{tarefa.deadline}">
+                <p:column style="width:32px;text-align: center">
+                    <h:commandLink action="#{tarefaBean.concluir(tarefa)}" immediate="true">
+                        <i class="fa fa-remove"></i>
+                    </h:commandLink>
+                </p:column>
+                <p:column headerText="Descrição">
+                    <h:outputText value="#{tarefa.descricao}"/>
+                </p:column>
+                <p:column headerText="Deadline" sortBy="#{tarefa.deadline}">
+                    <h:outputText value="#{tarefa.deadline}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Prioridade" sortBy="#{tarefa.prioridade}">
+                    <h:outputText value="#{tarefa.prioridade}"/>
+                </p:column>
+                <f:facet name="footer">
+                    Selecione <i class="fa fa-remove"></i> para concluir a tarefa!
+                </f:facet>
+            </p:dataTable>    
+        </h:form>
+    </h:body>
+</html>
+

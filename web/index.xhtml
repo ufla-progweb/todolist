@@ -20,6 +20,7 @@
                     <p:outputLabel value="Deadline:" for="txDeadline"/>
                     <p:calendar id="txDeadline" required="true" 
                                 value="#{tarefaBean.novaTarefa.deadline}"
+                                locale="pt_BR"
                                 requiredMessage="Por favor, informe o deadline da tarefa!"
                                 mindate="#{dataBean.dataAtual}"/>
                     <p:outputLabel value="Prioridade:" for="txPropridade"/>
@@ -30,7 +31,7 @@
                                     completeMethod="#{tarefaBean.completarPrioridade}"/>
 
                 </h:panelGrid> 
-                <p:commandButton value="Salvar" update="form" action="#{tarefaBean.salvar}"/>
+                <p:commandButton value="Salvar" update="form" actionListener="#{tarefaBean.salvar}"/>
             </p:panel>
             <br/>
             <p:dataTable id="table" emptyMessage="Uhuu... Não há tarefas pendentes!"
@@ -38,7 +39,7 @@
                          var="tarefa"
                          sortBy="#{tarefa.deadline}">
                 <p:column style="width:32px;text-align: center">
-                    <h:commandLink action="#{tarefaBean.concluir(tarefa)}" immediate="true">
+                    <h:commandLink actionListener="#{tarefaBean.concluir(tarefa)}" immediate="true">
                         <i class="fa fa-remove"></i>
                     </h:commandLink>
                 </p:column>

@@ -39,9 +39,9 @@
                          var="tarefa"
                          sortBy="#{tarefa.deadline}">
                 <p:column style="width:32px;text-align: center">
-                    <h:commandLink actionListener="#{tarefaBean.concluir(tarefa)}" immediate="true">
+                    <p:commandLink update="table" actionListener="#{tarefaBean.concluir(tarefa)}" immediate="true">
                         <i class="fa fa-remove"></i>
-                    </h:commandLink>
+                    </p:commandLink>                    
                 </p:column>
                 <p:column headerText="Descrição">
                     <h:outputText value="#{tarefa.descricao}"/>

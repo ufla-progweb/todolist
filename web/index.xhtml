@@ -39,7 +39,7 @@
                          var="tarefa"
                          sortBy="#{tarefa.deadline}">
                 <p:column style="width:32px;text-align: center">
-                    <p:commandLink update="table" actionListener="#{tarefaBean.concluir(tarefa)}" immediate="true">
+                    <p:commandLink update="table msgs" actionListener="#{tarefaBean.concluir(tarefa)}" immediate="true">
                         <i class="fa fa-remove"></i>
                     </p:commandLink>                    
                 </p:column>

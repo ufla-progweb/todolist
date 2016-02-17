@@ -1,31 +1,46 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-public class Tarefa {
+@Entity
+public class Tarefa implements Serializable {
+    @Id @GeneratedValue
+    private Long id;
     private String descricao;
+    @Temporal(TemporalType.DATE)
     private Date deadline;
     private String prioridade;
 
     public Tarefa() {
+        this.id = null;
         this.descricao = "";
         this.deadline = Calendar.getInstance().getTime();
         this.prioridade = "";
     }
 
     public Tarefa(String descricao, String prioridade) {
+        this.id = null;
         this.descricao = descricao;
         this.deadline = Calendar.getInstance().getTime();
         this.prioridade = prioridade;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 7;

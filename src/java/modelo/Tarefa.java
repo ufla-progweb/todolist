@@ -1,4 +1,4 @@
-package model;
+package modelo;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -7,11 +7,16 @@ import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+@NamedQuery(name = Tarefa.TODOS, query = "select t from Tarefa t")
 @Entity
 public class Tarefa implements Serializable {
+    
+    public static final String TODOS = "Tarefa.todos"; 
+    
     @Id @GeneratedValue
     private Long id;
     private String descricao;

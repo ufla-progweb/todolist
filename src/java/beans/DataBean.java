@@ -5,12 +5,13 @@
  */
 package beans;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import javax.faces.bean.ManagedBean;
 
 @ManagedBean
-public class DataBean {
+public class DataBean implements Serializable {
 
     public Date getDataAtual() {
         Calendar c = Calendar.getInstance();

@@ -12,7 +12,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import model.Tarefa;
+import modelo.Tarefa;
 
 @ManagedBean
 @ViewScoped
@@ -27,6 +27,7 @@ public class TarefaBean implements Serializable {
 
     public void salvar() {
         FacesMessage mensagem;
+        
         if (!tarefas.contains(novaTarefa)) {
             tarefas.add(novaTarefa);
             novaTarefa = new Tarefa();

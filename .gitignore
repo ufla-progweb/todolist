@@ -2,7 +2,6 @@
 dist/
 nbproject/private/
 build/
-conf/
 
 *.class
 

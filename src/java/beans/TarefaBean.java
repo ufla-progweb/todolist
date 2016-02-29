@@ -8,7 +8,9 @@ package beans;
 import dao.TarefaDAO;
 import dao.jpa.TarefaJPA;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -24,13 +26,20 @@ public class TarefaBean implements Serializable {
     public static final String PR_BAIXA = "Baixa";
 
     private Tarefa novaTarefa = new Tarefa();
+    private List<Tarefa> tarefas;
     private TarefaDAO tarefaDAO = new TarefaJPA();
 
+    @PostConstruct
+    private void carregarTarefas() {
+        tarefas = tarefaDAO.todos();
+    }
+    
     public void salvar() {
         FacesMessage mensagem;
         if (!getTarefas().contains(novaTarefa)) {
             tarefaDAO.salvar(novaTarefa);
             novaTarefa = new Tarefa();
+            carregarTarefas();
             mensagem = new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Tarefa cadastrada com sucesso!", null);
         } else {
@@ -43,6 +52,7 @@ public class TarefaBean implements Serializable {
 
     public void concluir(Tarefa tarefa) {
         tarefaDAO.concluir(tarefa.getId());
+        carregarTarefas();
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
                 "Tarefa concluída com sucesso!", null));
     }
@@ -53,7 +63,7 @@ public class TarefaBean implements Serializable {
     }
 
     public List<Tarefa> getTarefas() {
-        return tarefaDAO.todos();
+        return tarefas;
     }
 
     public Tarefa getNovaTarefa() {

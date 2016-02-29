@@ -2,7 +2,7 @@
 dist/
 nbproject/private/
 build/
-persistence.xml
+conf/
 
 *.class
 

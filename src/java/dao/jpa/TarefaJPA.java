@@ -6,6 +6,7 @@
 package dao.jpa;
 
 import dao.TarefaDAO;
+import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -17,32 +18,37 @@ import modelo.Tarefa;
  *
  * @author Paulo
  */
-public class TarefaJPA implements TarefaDAO {
-
-    @PersistenceUnit(unitName = "TodoListPU")
-    private EntityManagerFactory emf;
+public class TarefaJPA implements TarefaDAO, Serializable {
 
     @Override
     public void salvar(Tarefa tarefa) {
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = JPAUtil.getEMF().createEntityManager();
         em.getTransaction().begin();
-        if (tarefa.getId() == null) {
-            em.persist(tarefa);
-        } else {
-            em.merge(tarefa);
-        }
+        em.persist(tarefa);
         em.getTransaction().commit();
         em.close();
     }
 
     @Override
     public List<Tarefa> todos() {
-        EntityManager em = emf.createEntityManager();
-        TypedQuery<Tarefa> tq = em.createNamedQuery(Tarefa.TODOS, 
+        EntityManager em = JPAUtil.getEMF().createEntityManager();
+        TypedQuery<Tarefa> tq = em.createNamedQuery(Tarefa.TODOS,
                 Tarefa.class);
         List<Tarefa> tarefas = tq.getResultList();
         em.close();
-        return tarefas;    
+        return tarefas;
+    }
+
+    @Override
+    public void concluir(Long tarefaId) {
+        EntityManager em = JPAUtil.getEMF().createEntityManager();
+        Tarefa tarefa = em.find(Tarefa.class, tarefaId);
+        if (tarefa != null) {
+            em.getTransaction().begin();
+            em.remove(tarefa);
+            em.getTransaction().commit();
+        }        
+        em.close();
     }
 
 }

@@ -14,10 +14,11 @@ import javax.persistence.TemporalType;
 @NamedQuery(name = Tarefa.TODOS, query = "select t from Tarefa t")
 @Entity
 public class Tarefa implements Serializable {
-    
-    public static final String TODOS = "Tarefa.todos"; 
-    
-    @Id @GeneratedValue
+
+    public static final String TODOS = "Tarefa.todos";
+
+    @Id
+    @GeneratedValue
     private Long id;
     private String descricao;
     @Temporal(TemporalType.DATE)
@@ -45,7 +46,7 @@ public class Tarefa implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -71,8 +72,6 @@ public class Tarefa implements Serializable {
         }
         return true;
     }
-    
-    
 
     public String getDescricao() {
         return descricao;
@@ -97,6 +96,5 @@ public class Tarefa implements Serializable {
     public void setPrioridade(String prioridade) {
         this.prioridade = prioridade;
     }
-    
-    
+
 }

@@ -30,10 +30,11 @@ public class TarefaJPA implements TarefaDAO, Serializable {
     }
 
     @Override
-    public List<Tarefa> todos() {
+    public List<Tarefa> todos(Long usuarioId) {
         EntityManager em = JPAUtil.getEMF().createEntityManager();
         TypedQuery<Tarefa> tq = em.createNamedQuery(Tarefa.TODOS,
                 Tarefa.class);
+        tq.setParameter("usuarioId", usuarioId);
         List<Tarefa> tarefas = tq.getResultList();
         em.close();
         return tarefas;

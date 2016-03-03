@@ -7,11 +7,12 @@ import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@NamedQuery(name = Tarefa.TODOS, query = "select t from Tarefa t")
+@NamedQuery(name = Tarefa.TODOS, query = "select t from Tarefa t where t.usuario.id = :usuarioId")
 @Entity
 public class Tarefa implements Serializable {
 
@@ -24,6 +25,18 @@ public class Tarefa implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date deadline;
     private String prioridade;
+    @ManyToOne
+    private Usuario usuario;
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+    
+    
 
     public Tarefa() {
         this.id = null;

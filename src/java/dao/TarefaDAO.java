@@ -7,7 +7,7 @@ public interface TarefaDAO {
 
     public void salvar(Tarefa tarefa);
 
-    public List<Tarefa> todos();
+    public List<Tarefa> todos(Long usuarioId);
 
     public void concluir(Long tarefaId);
 }

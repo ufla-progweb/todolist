@@ -9,65 +9,64 @@
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css"/>
     </h:head>
     <h:body>
-        <div class="ui-fluid">
-            <h:form id="form">
 
-                <p:growl id="msgs"/>
+        <p:growl id="msgs"/>
+        <h:form id="formLogin">  
 
-                <p:accordionPanel>
-                    <p:tab title="Nova tarefa">
+            <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-10">                    
+                <f:facet name="header">
+                    <h:outputText value="Todolist :: Autenticação"/>
+            </f:facet>
+            <p:outputLabel value="Email:" for="txEmail"/>
+            <p:inputText id="txEmail" required="true"
+                         value="#{usuarioBean.novoUsuario.email}"
+                         requiredMessage="Por favor, informe seu email!"/>
+            <p:outputLabel value="Senha:" for="txSenha"/>                    
+            <p:password id="txSenha" required="true"
+                        value="#{usuarioBean.novoUsuario.senha}"
+                        requiredMessage="Por favor, informe sua senha!"/>                    
 
-                        <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-10">
-                            <p:outputLabel value="Descrição:" for="txDescricao"/>
-                            <p:inputText id="txDescricao" required="true" 
-                                         value="#{tarefaBean.novaTarefa.descricao}"
-                                         requiredMessage="Por favor, informe a descrição da tarefa!"/>
-                            <p:outputLabel value="Deadline:" for="txDeadline"/>
-                            <p:calendar id="txDeadline" required="true" 
-                                        value="#{tarefaBean.novaTarefa.deadline}"
-                                        locale="pt_BR"
-                                        requiredMessage="Por favor, informe o deadline da tarefa!"
-                                        mindate="#{dataBean.dataAtual}"/>
-                            <p:outputLabel value="Prioridade:" for="slPropridade"/>                    
-                            <p:selectOneMenu id="slPropridade"
-                                             value="#{tarefaBean.novaTarefa.prioridade}">
-                                <f:selectItems value="#{tarefaBean.prioridades}"/>
-                            </p:selectOneMenu>
-                            <p:commandButton value="Salvar" update="form" actionListener="#{tarefaBean.salvar}"/>
-                        </p:panelGrid> 
+            <p:commandButton value="Entrar" update="msgs formLogin" action="#{usuarioBean.autenticar}"/>
+            <h:panelGroup>
+                <h:outputText value="Novo usuário? "/>
+                <p:commandLink immediate="true" value="Cadastre-se aqui" onclick="PF('dlg').show();"/>
+            </h:panelGroup>
+        </p:panelGrid>
 
-                    </p:tab>
-                </p:accordionPanel>
+    </h:form>
 
-                <br/>
-                <p:dataTable id="table" emptyMessage="Uhuu... Não há tarefas pendentes!"
-                             value="#{tarefaBean.tarefas}"
-                             var="tarefa"
-                             reflow="true"
-                             sortBy="#{tarefa.deadline}">
-                    <p:column style="width:32px;text-align: center">
-                        <p:commandLink update="table :form:msgs" actionListener="#{tarefaBean.concluir(tarefa)}" immediate="true">
-                            <i class="fa fa-remove"></i>
-                        </p:commandLink>                    
-                    </p:column>
-                    <p:column headerText="Descrição">
-                        <h:outputText value="#{tarefa.descricao}"/>
-                    </p:column>
-                    <p:column headerText="Deadline" sortBy="#{tarefa.deadline}">
-                        <h:outputText value="#{tarefa.deadline}">
-                            <f:convertDateTime pattern="dd/MM/yyyy" />
-                        </h:outputText>
-                    </p:column>
-                    <p:column headerText="Prioridade" sortBy="#{tarefa.prioridade}">
-                        <h:outputText value="#{tarefa.prioridade}"/>
-                    </p:column>
-                    <f:facet name="footer">
-                        Selecione <i class="fa fa-remove"></i> para concluir a tarefa!
-                    </f:facet>
-                </p:dataTable>   
+    <p:dialog header="Novo usuário" widgetVar="dlg" resizable="false">
+        <h:form id="formCad">
+            <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-4,ui-grid-col-8">
+                <p:outputLabel value="Nome:" for="txNome"/>
+                <p:inputText id="txNome" required="true"
+                             value="#{usuarioBean.novoUsuario.nome}"
+                             requiredMessage="Por favor, informe seu nome!"/>
+                <p:outputLabel value="Email:" for="txEmail"/>
+                <p:inputText id="txEmail" required="true"
+                             value="#{usuarioBean.novoUsuario.email}"
+                             requiredMessage="Por favor, informe seu email!"/>
+                <p:outputLabel value="Senha:" for="txSenha"/>                    
+                <p:password feedback="true" id="txSenha" required="true" 
+                            requiredMessage="Por favor, informe sua senha!"
+                            weakLabel="Senha fraca"
+                            goodLabel="Senha boa"
+                            promptLabel="Infome sua senha"
+                            strongLabel="Senha muito boa"
+                            value="#{usuarioBean.novoUsuario.senha}"/>                    
+                <p:outputLabel value="Confirmar senha:" for="txConfSenha"/> 
+                <p:password feedback="true" id="txConfSenha" required="true" 
+                            requiredMessage="Por favor, confirme sua senha!"
+                            weakLabel="Senha fraca"
+                            goodLabel="Senha boa"
+                            promptLabel="Infome sua senha"
+                            strongLabel="Senha muito boa"
+                            value="#{usuarioBean.confirmarSenha}"/>                    
+                <p:commandButton value="Salvar" update="msgs formCad" action="#{usuarioBean.salvar}"/>
 
-            </h:form>
-        </div>
-    </h:body>
+            </p:panelGrid>
+        </h:form>    
+    </p:dialog>
+</h:body>
 </html>
 

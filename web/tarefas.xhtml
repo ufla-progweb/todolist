@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>TodoList</title>
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css"/>
+    </h:head>
+    <h:body>
+
+        <p:growl id="msgs"/>
+        <h:form id="formTable">
+            <p:toolbar>
+                <f:facet name="left">
+                    <p:commandButton value="Nova tarefa" icon="ui-icon-plus" immediate="true" onclick="PF('dlg').show();"/>
+                </f:facet>
+                <f:facet name="right">
+                    <p:menuButton value="#{usuarioBean.usuarioSessao.nome}">
+                        <p:menuitem value="Código-fonte" icon="ui-icon-document" url="https://github.com/ufla-progweb/todolist" target="_blank"/>
+                        <p:separator />
+                        <p:menuitem value="Sair" action="#{usuarioBean.sair}" icon="ui-icon-close" />
+                    </p:menuButton>
+                </f:facet>
+            </p:toolbar>
+            <br/>
+            <p:dataTable id="table" emptyMessage="Uhuu... Não há tarefas pendentes!"
+                         value="#{tarefaBean.tarefas}"
+                         var="tarefa"
+                         reflow="true"
+                         sortBy="#{tarefa.deadline}">
+                <p:column style="width:32px;text-align: center">
+                    <p:commandLink update="table msgs" actionListener="#{tarefaBean.concluir(tarefa)}" immediate="true">
+                        <i class="fa fa-remove"></i>
+                    </p:commandLink>                    
+                </p:column>
+                <p:column headerText="Descrição">
+                    <h:outputText value="#{tarefa.descricao}"/>
+                </p:column>
+                <p:column headerText="Deadline" sortBy="#{tarefa.deadline}">
+                    <h:outputText value="#{tarefa.deadline}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Prioridade" sortBy="#{tarefa.prioridade}">
+                    <h:outputText value="#{tarefa.prioridade}"/>
+                </p:column>
+                <f:facet name="footer">
+                    Selecione <i class="fa fa-remove"></i> para concluir a tarefa!
+                </f:facet>
+            </p:dataTable>   
+        </h:form>
+
+        <p:dialog header="Nova tarefa" widgetVar="dlg" resizable="false">
+            <h:form id="formCad">
+                <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-4,ui-grid-col-8">
+                    <p:outputLabel value="Descrição:" for="txDescricao"/>
+                    <p:inputText id="txDescricao" required="true" 
+                                 value="#{tarefaBean.novaTarefa.descricao}"
+                                 requiredMessage="Por favor, informe a descrição da tarefa!"/>
+                    <p:outputLabel value="Deadline:" for="txDeadline"/>
+                    <p:calendar id="txDeadline" required="true" 
+                                value="#{tarefaBean.novaTarefa.deadline}"
+                                locale="pt_BR"
+                                requiredMessage="Por favor, informe o deadline da tarefa!"
+                                mindate="#{dataBean.dataAtual}"/>
+                    <p:outputLabel value="Prioridade:" for="slPrioridade"/>                    
+                    <p:selectOneMenu id="slPrioridade"
+                                     style="width: 125px;"
+                                     value="#{tarefaBean.novaTarefa.prioridade}">
+                        <f:selectItems value="#{tarefaBean.prioridades}"/>
+                    </p:selectOneMenu>
+                    <p:commandButton value="Salvar" update="msgs formCad" action="#{tarefaBean.salvar}"/>
+                </p:panelGrid> 
+            </h:form>
+        </p:dialog>
+
+
+
+    </h:body>
+</html>
+

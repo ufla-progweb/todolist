@@ -1,72 +1,64 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-    <h:head>
-        <title>TodoList</title>
-        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css"/>
-    </h:head>
-    <h:body>
-
-        <p:growl id="msgs"/>
-        <h:form id="formLogin">  
-
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="corpo">
+        <h:form id="formLogin"> 
             <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-10">                    
                 <f:facet name="header">
                     <h:outputText value="Todolist :: Autenticação"/>
-            </f:facet>
-            <p:outputLabel value="Email:" for="txEmail"/>
-            <p:inputText id="txEmail" required="true"
-                         value="#{usuarioBean.novoUsuario.email}"
-                         requiredMessage="Por favor, informe seu email!"/>
-            <p:outputLabel value="Senha:" for="txSenha"/>                    
-            <p:password id="txSenha" required="true"
-                        value="#{usuarioBean.novoUsuario.senha}"
-                        requiredMessage="Por favor, informe sua senha!"/>                    
-
-            <p:commandButton value="Entrar" update="msgs formLogin" action="#{usuarioBean.autenticar}"/>
-            <h:panelGroup>
-                <h:outputText value="Novo usuário? "/>
-                <p:commandLink immediate="true" value="Cadastre-se aqui" onclick="PF('dlg').show();"/>
-            </h:panelGroup>
-        </p:panelGrid>
-
-    </h:form>
-
-    <p:dialog header="Novo usuário" widgetVar="dlg" resizable="false">
-        <h:form id="formCad">
-            <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-4,ui-grid-col-8">
-                <p:outputLabel value="Nome:" for="txNome"/>
-                <p:inputText id="txNome" required="true"
-                             value="#{usuarioBean.novoUsuario.nome}"
-                             requiredMessage="Por favor, informe seu nome!"/>
+                </f:facet>
                 <p:outputLabel value="Email:" for="txEmail"/>
                 <p:inputText id="txEmail" required="true"
                              value="#{usuarioBean.novoUsuario.email}"
                              requiredMessage="Por favor, informe seu email!"/>
                 <p:outputLabel value="Senha:" for="txSenha"/>                    
-                <p:password feedback="true" id="txSenha" required="true" 
-                            requiredMessage="Por favor, informe sua senha!"
-                            weakLabel="Senha fraca"
-                            goodLabel="Senha boa"
-                            promptLabel="Infome sua senha"
-                            strongLabel="Senha muito boa"
-                            value="#{usuarioBean.novoUsuario.senha}"/>                    
-                <p:outputLabel value="Confirmar senha:" for="txConfSenha"/> 
-                <p:password feedback="true" id="txConfSenha" required="true" 
-                            requiredMessage="Por favor, confirme sua senha!"
-                            weakLabel="Senha fraca"
-                            goodLabel="Senha boa"
-                            promptLabel="Infome sua senha"
-                            strongLabel="Senha muito boa"
-                            value="#{usuarioBean.confirmarSenha}"/>                    
-                <p:commandButton value="Salvar" update="msgs formCad" action="#{usuarioBean.salvar}"/>
+                <p:password id="txSenha" required="true"
+                            value="#{usuarioBean.novoUsuario.senha}"
+                            requiredMessage="Por favor, informe sua senha!"/>                    
 
+                <p:commandButton value="Entrar" validateClient="true" update="msgs formLogin" action="#{usuarioBean.autenticar}"/>
+                <h:panelGroup>
+                    <h:outputText value="Novo usuário? "/>
+                    <p:commandLink immediate="true" value="Cadastre-se aqui" onclick="PF('dlg').show();"/>
+                </h:panelGroup>
             </p:panelGrid>
-        </h:form>    
-    </p:dialog>
-</h:body>
-</html>
+        </h:form>
+
+        <p:dialog header="Novo usuário" widgetVar="dlg" resizable="false">
+            <h:form id="formCad">
+                <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-4,ui-grid-col-8">
+                    <p:outputLabel value="Nome:" for="txNome"/>
+                    <p:inputText id="txNome" required="true"
+                                 value="#{usuarioBean.novoUsuario.nome}"
+                                 requiredMessage="Por favor, informe seu nome!"/>
+                    <p:outputLabel value="Email:" for="txEmail"/>
+                    <p:inputText id="txEmail" required="true"
+                                 value="#{usuarioBean.novoUsuario.email}"
+                                 requiredMessage="Por favor, informe seu email!"/>
+                    <p:outputLabel value="Senha:" for="txSenha"/>                    
+                    <p:password feedback="true" id="txSenha" required="true" 
+                                requiredMessage="Por favor, informe sua senha!"
+                                weakLabel="Senha fraca"
+                                goodLabel="Senha boa"
+                                promptLabel="Infome sua senha"
+                                strongLabel="Senha muito boa"
+                                value="#{usuarioBean.novoUsuario.senha}"/>                    
+                    <p:outputLabel value="Confirmar senha:" for="txConfSenha"/> 
+                    <p:password feedback="true" id="txConfSenha" required="true" 
+                                requiredMessage="Por favor, confirme sua senha!"
+                                weakLabel="Senha fraca"
+                                goodLabel="Senha boa"
+                                promptLabel="Infome sua senha"
+                                strongLabel="Senha muito boa"
+                                value="#{usuarioBean.confirmarSenha}"/>                    
+                    <p:commandButton value="Salvar" validateClient="true" update="msgs formCad" action="#{usuarioBean.salvar}"/>
+
+                </p:panelGrid>
+            </h:form>    
+        </p:dialog>
+    </ui:define>
+</ui:composition>
 

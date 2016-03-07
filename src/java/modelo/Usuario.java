@@ -5,6 +5,7 @@
  */
 package modelo;
 
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -16,7 +17,7 @@ import javax.persistence.NamedQuery;
     @NamedQuery(name = Usuario.EXISTE_USUARIO_COM_EMAIL, query = "select count(u) from Usuario u where u.email = :email"),
     @NamedQuery(name = Usuario.POR_EMAIL_E_SENHA, query = "select u from Usuario u where u.email = :email and u.senha = :senha")
 })
-public class Usuario {
+public class Usuario implements Serializable {
 
     public static final String EXISTE_USUARIO_COM_EMAIL = "Usuario.existeUsuarioComEmail";
     public static final String POR_EMAIL_E_SENHA = "Usuario.porEmailESenha";

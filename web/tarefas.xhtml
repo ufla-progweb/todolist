@@ -1,16 +1,10 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-    <h:head>
-        <title>TodoList</title>
-        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css"/>
-    </h:head>
-    <h:body>
-
-        <p:growl id="msgs"/>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/WEB-INF/template.xhtml">    
+    <ui:define name="corpo">
         <h:form id="formTable">
             <p:toolbar>
                 <f:facet name="left">
@@ -32,8 +26,14 @@
                          sortBy="#{tarefa.deadline}">
                 <p:column style="width:32px;text-align: center">
                     <p:commandLink update="table msgs" actionListener="#{tarefaBean.concluir(tarefa)}" immediate="true">
-                        <i class="fa fa-remove"></i>
-                    </p:commandLink>                    
+                        <i class="fa fa-remove"/>
+                        <p:confirm header="Confirmação" message="Deseja realmente concluir essa tarefa?" icon="ui-icon-alert" />
+
+                    </p:commandLink> 
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
                 </p:column>
                 <p:column headerText="Descrição">
                     <h:outputText value="#{tarefa.descricao}"/>
@@ -71,13 +71,13 @@
                                      value="#{tarefaBean.novaTarefa.prioridade}">
                         <f:selectItems value="#{tarefaBean.prioridades}"/>
                     </p:selectOneMenu>
-                    <p:commandButton value="Salvar" update="msgs formCad" action="#{tarefaBean.salvar}"/>
+                    <p:commandButton value="Salvar" validateClient="true" update="msgs formCad" action="#{tarefaBean.salvar}"/>
                 </p:panelGrid> 
             </h:form>
         </p:dialog>
 
 
 
-    </h:body>
-</html>
+    </ui:define>>
+</ui:composition>
 

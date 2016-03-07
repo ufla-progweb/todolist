@@ -5,7 +5,6 @@
  */
 package beans;
 
-
 import dao.UsuarioDAO;
 import dao.jpa.UsuarioJPA;
 import javax.faces.application.FacesMessage;
@@ -16,6 +15,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import modelo.Usuario;
 import util.Mensagens;
+import util.SenhaHashing;
 
 @ManagedBean
 @SessionScoped
@@ -45,15 +45,25 @@ public class UsuarioBean {
                     null);
             return null;
         }
+
+        // Gera hash para senha do usuário
+        novoUsuario.setSenha(
+                SenhaHashing.hash(novoUsuario.getSenha()));
         usuarioDAO.salvar(novoUsuario);
         Mensagens.adicionarMensagem(FacesMessage.SEVERITY_INFO,
-                    "Usuário cadastrado com sucesso! Autentique-se para entrar...", null);
+                "Usuário cadastrado com sucesso! Autentique-se para entrar...", null);
         novoUsuario = new Usuario();
+
         return "index.xhtml?faces-redirect=true";
+
     }
 
     public String autenticar() {
-        usuarioSessao = usuarioDAO.porEmaileSenha(novoUsuario.getEmail(), 
+        // Gera hash para senha do usuário
+        novoUsuario.setSenha(
+                SenhaHashing.hash(novoUsuario.getSenha()));
+
+        usuarioSessao = usuarioDAO.porEmaileSenha(novoUsuario.getEmail(),
                 novoUsuario.getSenha());
         novoUsuario = new Usuario();
         if (usuarioSessao == null) {
@@ -97,7 +107,5 @@ public class UsuarioBean {
     public void setUsuarioSessao(Usuario usuarioSessao) {
         this.usuarioSessao = usuarioSessao;
     }
-
-    
 
 }
